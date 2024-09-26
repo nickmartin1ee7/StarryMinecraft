@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Net;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -27,14 +26,18 @@ public partial class MainPageViewModel : ObservableObject
     private async Task ShowAddServerDialog()
     {
         // Show dialog to get server details
-        var address = await App.Current.MainPage!.DisplayPromptAsync("Add Server", "Enter server address:");
-        var port = int.Parse(await App.Current.MainPage.DisplayPromptAsync("Add Server", "Enter server port:"));
+        var address = await App.Current!.MainPage!.DisplayPromptAsync("Add Server", "Enter server address:");
+        _ = int.TryParse(await App.Current.MainPage.DisplayPromptAsync("Add Server", "Enter server port:"), out var port);
         var password = await App.Current.MainPage.DisplayPromptAsync("Add Server", "Enter server password (optional):");
         var nickname = await App.Current.MainPage.DisplayPromptAsync("Add Server", "Enter server nickname (optional):");
 
-        if (!string.IsNullOrWhiteSpace(address) && port > 0)
+        var optionalPassword = string.IsNullOrWhiteSpace(password) ? null : password;
+        var optionalNickname = string.IsNullOrWhiteSpace(nickname) ? null : nickname;
+
+        if (!string.IsNullOrWhiteSpace(address)
+            && port > 0)
         {
-            AddServer(new ServerProfileValueModel(address, port, password, nickname));
+            AddServer(new ServerProfileValueModel(address, port, optionalPassword, optionalNickname));
         }
     }
 }

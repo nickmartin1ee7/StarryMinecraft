@@ -24,7 +24,8 @@
                         ColumnDefinitions="*,Auto">
                         <Button
                             Grid.Column="0"
-                            Text="{Binding Title, Source={x:Reference MenuListView}}"/>
+                            x:DataType="local:ServerProfileValueModel"
+                            Text="{Binding Title}"/>
                         <Button
                             Grid.Column="1"
                             CornerRadius="4"
