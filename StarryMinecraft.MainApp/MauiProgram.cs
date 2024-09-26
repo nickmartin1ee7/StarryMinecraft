@@ -15,8 +15,14 @@ namespace StarryMinecraft.MainApp
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            // View Models
+            builder.Services.AddTransient<MainPageViewModel>();
+
+            // Pages
+            builder.Services.AddSingleton<MainPage>();
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
